@@ -3,13 +3,10 @@ class TasksController < ApplicationController
   before_action :correct_user, only: [:destroy,:edit ,:update ,:show]
   
   def index
-    if logged_in?
       @tasks = current_user.tasks
-    end
   end
   
   def show
-    @task = Task.find(params[:id])
   end
   
   def new
@@ -27,7 +24,6 @@ class TasksController < ApplicationController
     end
   end
   def edit
-    
   end
 
   def update
