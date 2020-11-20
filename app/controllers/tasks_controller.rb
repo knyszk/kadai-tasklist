@@ -3,7 +3,10 @@ class TasksController < ApplicationController
   before_action :correct_user, only: [:destroy]
   
   def index
-    @tasks = Task.all
+    if logged_in?
+      @task = current_user.tasks.build  # form_with 用
+      @tasks = current_user.tasks.order(id: :desc)
+    end
   end
   
   def show
@@ -13,13 +16,9 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
   end
-    # if logged_in?
-    #   @task = current_user.tasks.new
-    #   @tasks = current_user.tasks.order(id: :desc).page(params[:page])
-    # end
+
   def create
     @task = current_user.tasks.build(task_params)
-    # binding.pry
     if @task.save
       flash[:success] = 'タスクが正常に設定されました'
       redirect_to @task
